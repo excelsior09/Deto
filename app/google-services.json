@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "58315123367",
+    "project_id": "deto-9bc12",
+    "storage_bucket": "deto-9bc12.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58315123367:android:245ed67e3b3eb657fcc982",
+        "android_client_info": {
+          "package_name": "com.example.deto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlqDUBb3PdYrXvHf8nIZKdamS3NijK8VY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
