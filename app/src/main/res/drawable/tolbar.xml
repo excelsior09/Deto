@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+android:shape="rectangle">
+<!-- Mengatur warna latar belakang border -->
+<solid android:color="@android:color/transparent" />
+<!-- Mengatur warna border dan ketebalannya -->
+<stroke
+    android:width="2dp"
+    android:color="#FB9AD1" />
+    <corners android:radius="20dp" />
+</shape>

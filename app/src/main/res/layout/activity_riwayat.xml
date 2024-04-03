@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F21E0125"
+    tools:context=".riwayat">
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav_view"
+        android:layout_width="409dp"
+        android:layout_height="70sp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="658dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="3dp"
+        android:background="#BC7FCD"
+        app:itemIconSize="34sp"
+        app:itemIconTint="@color/black"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/botto_nav_menu" />
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="166dp"
+        android:layout_height="157dp"
+        android:layout_marginBottom="612dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.579"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="351dp"
+        android:layout_height="56dp"
+        android:background="@drawable/tolbar"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.237">
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <Button
+        android:id="@+id/btndisukai"
+        android:layout_width="172dp"
+        android:layout_height="56dp"
+        android:background="@drawable/radiusbtn"
+        android:text="Disukai"
+        android:textSize="20dp"
+        android:textColor="#FFF"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.112"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.237" />
+
+    <Button
+        android:id="@+id/menyukai"
+        android:layout_width="172dp"
+        android:layout_height="56dp"
+        android:background="@drawable/radiusbtn2"
+        android:text="menyukai"
+        android:textSize="20dp"
+        android:textColor="#FB9AD1"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.861"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.237" />
+
+        <LinearLayout
+            android:id="@+id/suka1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/riwayatdisukai"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:elevation="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="6dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.422">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/rc8ejfmapcaa"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="33dp"
+                android:scaleType="fitXY"
+                app:shapeAppearanceOverlay="@style/radiusriwayatsuka"
+                android:src="@drawable/cewewk" />
+
+            <TextView
+                android:id="@+id/nama1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Dek Baby, 25\nYogyakarta"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/suka2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/riwayatdisukai"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:elevation="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="6dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.559">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img2"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="33dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/zara"
+                app:shapeAppearanceOverlay="@style/radiusriwayatsuka" />
+
+            <TextView
+                android:id="@+id/nama2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Zara, 21\nYogyakarta"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/suka3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/riwayatdisukai"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:elevation="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="6dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.688">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img3"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="33dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/cece"
+                app:shapeAppearanceOverlay="@style/radiusriwayatsuka" />
+
+            <TextView
+                android:id="@+id/nama3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Zara, 21\nYogyakarta"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/suka4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="6dp"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/riwayatdisukai"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="18dp"
+        android:paddingVertical="6dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.807">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img4"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="33dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/cece"
+            app:shapeAppearanceOverlay="@style/radiusriwayatsuka" />
+
+        <TextView
+            android:id="@+id/nama4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Zara, 21\nYogyakarta"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/suka5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="6dp"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/riwayatdisukai"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="18dp"
+        android:paddingVertical="6dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.937">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img5"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="33dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/cece"
+            app:shapeAppearanceOverlay="@style/radiusriwayatsuka" />
+
+        <TextView
+            android:id="@+id/nama5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Zara, 21\nYogyakarta"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
