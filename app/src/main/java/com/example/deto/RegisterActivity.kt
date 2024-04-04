@@ -13,6 +13,7 @@ import com.google.firebase.auth.userProfileChangeRequest
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var editFullName: EditText
+    lateinit var editUmur: EditText
     lateinit var editEmail: EditText
     lateinit var editPassword: EditText
     lateinit var editPasswordConf: EditText
@@ -32,6 +33,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         editFullName = findViewById(R.id.full_name)
+        editUmur = findViewById(R.id.umur)
         editEmail = findViewById(R.id.email)
         editPassword = findViewById(R.id.password)
         editPasswordConf = findViewById(R.id.password_conf)
@@ -58,6 +60,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun processRegister() {
         val fullName = editFullName.text.toString()
+        val umur = editUmur.text.toString()
         val email = editEmail.text.toString()
         val password = editPassword.text.toString()
 

@@ -1,15 +1,24 @@
 package com.example.deto
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class home2 : AppCompatActivity() {
+class home2 : AppCompatActivity(){
+    @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home2)
+
+        val followButton = findViewById<ImageButton>(R.id.follow)
+        followButton.setOnClickListener {
+            startActivity(Intent(this, jodoh::class.java))
+        }
+
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
         bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -18,18 +27,17 @@ class home2 : AppCompatActivity() {
                 }
 
                 R.id.riwayat -> {
-                    // Kode yang dijalankan ketika item "riwayat" dipilih
                     startActivity(Intent(this, riwayat::class.java))
                     true
                 }
 
                 R.id.chat -> {
-                    // Kode yang dijalankan ketika item "chat" dipilih
+                    startActivity(Intent(this, riwayat::class.java))
                     true
                 }
 
                 R.id.profil -> {
-                    // Kode yang dijalankan ketika item "profil" dipilih
+                    startActivity(Intent(this, profil::class.java))
                     true
                 }
 

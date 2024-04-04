@@ -13,8 +13,17 @@
         android:theme="@style/Theme.Deto"
         tools:targetApi="31">
         <activity
-            android:name=".riwayat"
+            android:name=".coba"
             android:exported="false" />
+        <activity
+            android:name=".profil"
+            android:exported="false" />
+        <activity
+            android:name=".jodoh"
+            android:exported="true" />
+        <activity
+            android:name=".riwayat"
+            android:exported="true" />
         <activity
             android:name=".home2"
             android:exported="true" />
