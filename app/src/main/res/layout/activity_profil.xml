@@ -36,7 +36,7 @@
                 app:srcCompat="@drawable/logo" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
+                android:id="@+id/profilpage"
                 android:layout_width="337dp"
                 android:layout_height="462dp"
                 android:background="@drawable/radiusprofilac"
@@ -143,25 +143,41 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tentang" />
 
-                <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="110dp"
-                    android:layout_height="106dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layerpoto"
+                    android:layout_width="306dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/foto"
-                    app:srcCompat="@drawable/roy2" />
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="6dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/profilpage"
+                    app:layout_constraintTop_toBottomOf="@+id/foto">
 
-                <ImageButton
-                    android:id="@+id/tambahfoto"
-                    android:layout_width="110dp"
-                    android:layout_height="106dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/btnimg"
-                    app:layout_constraintStart_toEndOf="@+id/imageView6"
-                    app:layout_constraintTop_toBottomOf="@+id/foto" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycleview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/btnadd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:src="@drawable/btnimg"
+                        app:layout_constraintBottom_toTopOf="@+id/recycleview"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/recycleview" />
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

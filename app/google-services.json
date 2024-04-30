@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "58315123367",
+    "firebase_url": "https://deto-9bc12-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "deto-9bc12",
     "storage_bucket": "deto-9bc12.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:58315123367:android:245ed67e3b3eb657fcc982",
+        "mobilesdk_app_id": "1:58315123367:android:1c2bcd0d673b78c0fcc982",
         "android_client_info": {
-          "package_name": "com.example.deto"
+          "package_name": "id.ac.ukdw.deto"
         }
       },
       "oauth_client": [],

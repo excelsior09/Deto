@@ -5,11 +5,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.deto"
+    namespace = "id.ac.ukdw.deto"
     compileSdk = 34
 
+
     defaultConfig {
-        applicationId = "com.example.deto"
+        applicationId = "id.ac.ukdw.deto"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -34,6 +35,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 }
 
 dependencies {
@@ -43,6 +45,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("de.hdodenhof:circleimageview:2.2.0")

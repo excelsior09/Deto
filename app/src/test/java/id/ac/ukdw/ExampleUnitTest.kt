@@ -1,4 +1,4 @@
-package com.example.deto
+package id.ac.ukdw
 
 import org.junit.Test
 

@@ -1,15 +1,19 @@
-package com.example.deto
+package id.ac.ukdw.deto
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 
 
 class profil : AppCompatActivity() {
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var btnadd: FloatingActionButton
+
     lateinit var textFullName: TextView
 //    lateinit var btnLogout: Button
 
@@ -19,6 +23,9 @@ class profil : AppCompatActivity() {
         setContentView(R.layout.activity_profil)
         textFullName =findViewById(R.id.namaprofil)
 //        btnLogout = findViewById<Button>(R.id.btnLogout)
+
+        recyclerView = findViewById(R.id.recycleview)
+        btnadd = findViewById(R.id.btnadd)
 
         val firebaseUser = firebaseAuth.currentUser
         if (firebaseUser!=null){
@@ -32,7 +39,6 @@ class profil : AppCompatActivity() {
 //            startActivity(Intent(this, LoginActivity::class.java))
 //            finish()
 //        }
-
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
         bottomNavigationView.setOnItemSelectedListener { menuItem ->

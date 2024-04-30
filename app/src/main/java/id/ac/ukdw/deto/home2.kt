@@ -1,12 +1,12 @@
-package com.example.deto
+package id.ac.ukdw.deto
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import id.ac.ukdw.deto.R
 
 class home2 : AppCompatActivity(){
     @SuppressLint("WrongViewCast")
