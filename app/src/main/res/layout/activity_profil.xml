@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F21E0125"
-    tools:context=".coba">
+    android:background="#F21E0125">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,7 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <!-- Isi konten di sini -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +36,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/profilpage"
                 android:layout_width="337dp"
-                android:layout_height="462dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/radiusprofilac"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -55,6 +53,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/roy1" />
 
+                <!-- Tetapkan elemen lain di sini -->
+
                 <TextView
                     android:id="@+id/namaprofil"
                     android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
                     app:layout_constraintVertical_bias="0.125" />
 
                 <ImageButton
-                    android:id="@+id/btnLogout"
+                    android:id="@+id/edit_nama"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="10dp"
@@ -99,7 +99,7 @@
                     android:textSize="22dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                    app:layout_constraintTop_toBottomOf="@+id/tentangUbah" />
 
                 <TextView
                     android:id="@+id/foto"
@@ -114,7 +114,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/hobi2" />
 
                 <ImageButton
-                    android:id="@+id/edit2"
+                    android:id="@+id/edit_tentang"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="10dp"
@@ -124,29 +124,41 @@
                     app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
                 <ImageButton
-                    android:id="@+id/edit3"
+                    android:id="@+id/edit_hobi"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="28dp"
                     android:background="@drawable/pencil"
                     app:layout_constraintStart_toEndOf="@+id/hobi2"
-                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                    app:layout_constraintTop_toBottomOf="@+id/tentangUbah" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/tentangUbah"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="TextView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.057"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tentang" />
 
+                <TextView
+                    android:id="@+id/hobiUbah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="TextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.057"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/hobi2" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layerpoto"
-                    android:layout_width="306dp"
-                    android:layout_height="120dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="13dp"
                     android:layout_marginEnd="15dp"
@@ -156,34 +168,40 @@
                     app:layout_constraintStart_toStartOf="@id/profilpage"
                     app:layout_constraintTop_toBottomOf="@+id/foto">
 
+                    <!-- ImageView for displaying a single uploaded image -->
+                    <ImageView
+                        android:id="@+id/uploadedImage"
+                        android:layout_width="75dp"
+                        android:layout_height="80dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- RecyclerView for displaying multiple uploaded images -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycleview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toBottomOf="@id/uploadedImage"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
+                    <!-- FloatingActionButton for adding a new image -->
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/btnadd"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_margin="16dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/btnimg"
-                        app:layout_constraintBottom_toTopOf="@+id/recycleview"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recycleview" />
-
-
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recycleview" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- Button Login -->
+            <!-- Button Logout -->
             <Button
-                android:id="@+id/btnlogin"
+                android:id="@+id/btnlogout"
                 android:layout_width="176dp"
                 android:layout_height="33dp"
                 android:layout_marginTop="20dp"
@@ -198,6 +216,7 @@
 
     </ScrollView>
 
+    <!-- Bottom Navigation View -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="409dp"
@@ -215,7 +234,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/botto_nav_menu" />
-
-    <!-- Bottom Navigation View -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
