@@ -2,14 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -21,7 +20,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Deto"
         tools:targetApi="31">
-
+        <activity
+            android:name=".bubblechat"
+            android:exported="false" />
+        <activity
+            android:name=".riwayatMenyukai"
+            android:exported="false"
+            android:label="riwayatMenyukai" />
+        <activity
+            android:name=".pesan"
+            android:exported="false" />
         <activity
             android:name=".profil"
             android:exported="false" />
@@ -30,7 +38,8 @@
             android:exported="true" />
         <activity
             android:name=".riwayat"
-            android:exported="true" />
+            android:exported="true"
+            android:label="riwayat" />
         <activity
             android:name=".home2"
             android:exported="true" />
@@ -51,6 +60,16 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

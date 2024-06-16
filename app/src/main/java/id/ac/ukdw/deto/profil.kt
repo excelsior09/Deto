@@ -4,16 +4,24 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import id.ac.ukdw.deto.databinding.ActivityProfilBinding
 import id.ac.ukdw.deto.databinding.DialogEditHobiBinding
@@ -21,6 +29,8 @@ import id.ac.ukdw.deto.databinding.DialogEditNamaBinding
 import id.ac.ukdw.deto.databinding.DialogEditTentangBinding
 import id.ac.ukdw.deto.model.ImageItem
 import id.ac.ukdw.deto.model.MyRecyclerViewAdapter
+import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 
 class profil : AppCompatActivity() {
@@ -37,6 +47,8 @@ class profil : AppCompatActivity() {
 
     private lateinit var filePath: Uri
     private lateinit var chooseImageLauncher: ActivityResultLauncher<String>
+    private lateinit var takePictureLauncher: ActivityResultLauncher<Uri>
+    private lateinit var imageUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,15 +61,34 @@ class profil : AppCompatActivity() {
         btnLogout = binding.btnlogout
         recyclerView = binding.recycleview
 
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = MyRecyclerViewAdapter(mutableListOf())
 
-        chooseImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                filePath = it
-                uploadImage()
+        chooseImageLauncher =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                uri?.let {
+                    filePath = it
+                    // Panggil fungsi yang sesuai berdasarkan konteks
+                    if (isProfileImageUpload) {
+                        uploadProfileImage()
+                    } else {
+                        uploadImageToGallery()
+                    }
+                }
             }
-        }
+
+        takePictureLauncher =
+            registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
+                if (success) {
+                    // Panggil fungsi yang sesuai berdasarkan konteks
+                    if (isProfileImageUpload) {
+                        uploadProfileImage()
+                    } else {
+                        uploadImageToGallery()
+                    }
+                }
+            }
 
         val firebaseUser = firebaseAuth.currentUser
         if (firebaseUser != null) {
@@ -69,6 +100,7 @@ class profil : AppCompatActivity() {
                         val umur = document.getString("age")
                         val tentang = document.getString("tentang")
                         val hobi = document.getString("hobi")
+                        val profileImageUrl = document.getString("profileImage")
                         if (!name.isNullOrEmpty()) {
                             val fullNameWithAge = if (!umur.isNullOrEmpty()) {
                                 "$name, $umur"
@@ -85,12 +117,20 @@ class profil : AppCompatActivity() {
                         if (!hobi.isNullOrEmpty()) {
                             textHobi.text = hobi
                         }
+                        if (!profileImageUrl.isNullOrEmpty()) {
+                            // Gunakan Glide untuk memuat gambar dari URL
+                            Glide.with(this).load(profileImageUrl).into(binding.imageView5)
+                        }
                     } else {
                         Toast.makeText(this, "Data tidak ditemukan", Toast.LENGTH_SHORT).show()
                     }
                 }
                 .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Gagal mengambil data: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Gagal mengambil data: ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         } else {
             startActivity(Intent(this, LoginActivity::class.java))
@@ -128,7 +168,7 @@ class profil : AppCompatActivity() {
                 }
 
                 R.id.chat -> {
-                    startActivity(Intent(this, riwayat::class.java))
+                    startActivity(Intent(this, pesan::class.java))
                     true
                 }
 
@@ -141,11 +181,21 @@ class profil : AppCompatActivity() {
         }
 
         binding.btnadd.setOnClickListener {
-            chooseImage()
+            // Tambahkan gambar ke galeri
+            isProfileImageUpload = false
+            showImageSourceDialog()
+        }
+
+        binding.imageView5.setOnClickListener {
+            // Ganti gambar profil
+            isProfileImageUpload = true
+            chooseImageLauncher.launch("image/*")
         }
 
         loadImagesFromFirestore()
     }
+
+    private var isProfileImageUpload: Boolean = false
 
     private fun showEditNamaDialog() {
         val dialogBinding = DialogEditNamaBinding.inflate(layoutInflater)
@@ -159,7 +209,8 @@ class profil : AppCompatActivity() {
                 if (newName.isNotEmpty()) {
                     updateNama(newName)
                 } else {
-                    Toast.makeText(this@profil, "Nama tidak boleh kosong", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@profil, "Nama tidak boleh kosong", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 dialog.dismiss()
             }
@@ -180,7 +231,11 @@ class profil : AppCompatActivity() {
                     Toast.makeText(this, "Nama berhasil diperbarui", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Gagal memperbarui nama: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Gagal memperbarui nama: ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         }
     }
@@ -197,7 +252,8 @@ class profil : AppCompatActivity() {
                 if (newTentang.isNotEmpty()) {
                     updateTentang(newTentang)
                 } else {
-                    Toast.makeText(this@profil, "Tentang tidak boleh kosong", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@profil, "Tentang tidak boleh kosong", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 dialog.dismiss()
             }
@@ -215,10 +271,14 @@ class profil : AppCompatActivity() {
                 .update("tentang", newTentang)
                 .addOnSuccessListener {
                     textTentang.text = newTentang
-                    Toast.makeText(this, "Tentang Saya berhasil diperbarui", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Tentang berhasil diperbarui", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Gagal memperbarui Tentang Saya: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Gagal memperbarui tentang: ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         }
     }
@@ -235,7 +295,8 @@ class profil : AppCompatActivity() {
                 if (newHobi.isNotEmpty()) {
                     updateHobi(newHobi)
                 } else {
-                    Toast.makeText(this@profil, "Hobi tidak boleh kosong", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@profil, "Hobi tidak boleh kosong", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 dialog.dismiss()
             }
@@ -256,78 +317,155 @@ class profil : AppCompatActivity() {
                     Toast.makeText(this, "Hobi berhasil diperbarui", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Gagal memperbarui hobi: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Gagal memperbarui hobi: ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         }
     }
 
-    private fun chooseImage() {
-        chooseImageLauncher.launch("image/*")
+    private fun showImageSourceDialog() {
+        val options = arrayOf("Camera", "Gallery")
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Choose an option")
+        builder.setItems(options) { _, which ->
+            when (which) {
+                0 -> {
+                    // Create a unique file name for the image
+                    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+                    val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                    val file = File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
+
+                    imageUri = FileProvider.getUriForFile(
+                        this,
+                        "${applicationContext.packageName}.fileprovider",
+                        file
+                    )
+
+                    takePictureLauncher.launch(imageUri)
+                }
+
+                1 -> chooseImageLauncher.launch("image/*")
+            }
+        }
+        builder.show()
     }
 
-    private fun uploadImage() {
-        if (this::filePath.isInitialized) {
-            val storageReference = storage.reference.child("images/" + UUID.randomUUID().toString())
-            storageReference.putFile(filePath)
-                .addOnSuccessListener {
-                    Toast.makeText(this@profil, "Image Uploaded", Toast.LENGTH_SHORT).show()
-                    storageReference.downloadUrl.addOnSuccessListener { uri ->
-                        val imageUrl = uri.toString()
-                        saveImageUrlToDatabase(imageUrl)
-                    }
+    private fun uploadProfileImage() {
+        val firebaseUser = firebaseAuth.currentUser
+        if (firebaseUser != null) {
+            val storageRef = storage.reference
+            val profileImageRef = storageRef.child("profileImages/${firebaseUser.uid}.jpg")
+            val uploadTask = profileImageRef.putFile(filePath)
+
+            uploadTask.addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener { uri ->
+                    saveProfileImageUrlToFirestore(uri.toString())
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this@profil, "Failed " + e.message, Toast.LENGTH_SHORT).show()
-                }
+            }.addOnFailureListener { exception ->
+                Toast.makeText(
+                    this,
+                    "Failed to upload image: ${exception.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
-    private fun saveImageUrlToDatabase(imageUrl: String) {
+    private fun saveProfileImageUrlToFirestore(imageUrl: String) {
         val firebaseUser = firebaseAuth.currentUser
         if (firebaseUser != null) {
             firestore.collection("user").document(firebaseUser.uid)
-                .update("imageUrl", imageUrl)
+                .update("profileImage", imageUrl)
                 .addOnSuccessListener {
-                    Toast.makeText(this, "Image URL saved to database", Toast.LENGTH_SHORT).show()
-                    addImageToRecyclerView(imageUrl)
+                    Toast.makeText(this, "Profile image updated", Toast.LENGTH_SHORT).show()
+                    // Gunakan Glide untuk memuat gambar dari URL yang baru diunggah
+                    Glide.with(this).load(imageUrl).into(binding.imageView5)
                 }
                 .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Failed to save image URL: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Failed to update profile image: ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         }
     }
 
-    private fun addImageToRecyclerView(imageUrl: String) {
-        // Ambil adapter dari RecyclerView
-        val adapter = recyclerView.adapter as? MyRecyclerViewAdapter
+    private fun uploadImageToGallery() {
+        val firebaseUser = firebaseAuth.currentUser
+        if (firebaseUser != null) {
+            val storageRef = storage.reference
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+            val galleryImageRef = storageRef.child("galleryImages/${firebaseUser.uid}/$timeStamp.jpg")
+            val uploadTask = galleryImageRef.putFile(filePath)
 
-        // Buat objek ImageItem dengan imageUrl yang baru diunggah
-        val newItem = ImageItem(imageUrl)
+            uploadTask.addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener { uri ->
+                    saveGalleryImageUrlToFirestore(uri.toString())
+                }
+            }.addOnFailureListener { exception ->
+                Toast.makeText(
+                    this,
+                    "Failed to upload image: ${exception.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
 
-        // Tambahkan newItem ke RecyclerView
-        adapter?.addItem(newItem)
+    private fun saveGalleryImageUrlToFirestore(imageUrl: String) {
+        val firebaseUser = firebaseAuth.currentUser
+        if (firebaseUser != null) {
+            val userImagesRef = firestore.collection("userImages").document(firebaseUser.uid)
+            userImagesRef.update("images", FieldValue.arrayUnion(imageUrl))
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Image added to gallery", Toast.LENGTH_SHORT).show()
+                    // Memperbarui RecyclerView dengan gambar yang baru ditambahkan
+                    (recyclerView.adapter as MyRecyclerViewAdapter).addImage(ImageItem(imageUrl))
+                }
+                .addOnFailureListener { exception ->
+                    // Jika dokumen tidak ada, buat dokumen baru dengan gambar pertama
+                    val initialData = hashMapOf("images" to listOf(imageUrl))
+                    userImagesRef.set(initialData, SetOptions.merge())
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Image added to gallery", Toast.LENGTH_SHORT).show()
+                            // Memperbarui RecyclerView dengan gambar yang baru ditambahkan
+                            (recyclerView.adapter as MyRecyclerViewAdapter).addImage(ImageItem(imageUrl))
+                        }
+                        .addOnFailureListener { setException ->
+                            Toast.makeText(
+                                this,
+                                "Failed to save image: ${setException.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                }
+        }
     }
 
     private fun loadImagesFromFirestore() {
         val firebaseUser = firebaseAuth.currentUser
         if (firebaseUser != null) {
-            firestore.collection("user").document(firebaseUser.uid)
-                .collection("images")
-                .get()
-                .addOnSuccessListener { result ->
-                    val images = mutableListOf<ImageItem>()
-                    for (document in result) {
-                        val url = document.getString("imageUrl")
-                        if (!url.isNullOrEmpty()) {
-                            images.add(ImageItem(url))
-                        }
+            val userImagesRef = firestore.collection("userImages").document(firebaseUser.uid)
+            userImagesRef.get().addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val images = document.get("images") as List<String>?
+                    images?.let {
+                        (recyclerView.adapter as MyRecyclerViewAdapter).updateImages(it.map { url ->
+                            ImageItem(url)
+                        }.toMutableList())
                     }
-                    val adapter = recyclerView.adapter as? MyRecyclerViewAdapter
-                    adapter?.setItems(images)
                 }
-                .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Failed to load images: ${exception.message}", Toast.LENGTH_SHORT).show()
-                }
+            }.addOnFailureListener { exception ->
+                Toast.makeText(
+                    this,
+                    "Failed to load images: ${exception.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }
