@@ -1,95 +1,112 @@
 package id.ac.ukdw.deto
 
-import android.app.AlertDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
+import android.widget.ArrayAdapter
 import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.userProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
+import id.ac.ukdw.deto.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
-    lateinit var editFullName: EditText
-    lateinit var editUmur: EditText
-    lateinit var editEmail: EditText
-    lateinit var editPassword: EditText
-    lateinit var editPasswordConf: EditText
-    lateinit var btnRegister: Button
-    lateinit var btnLogin: Button
 
-    var firebaseAuth = FirebaseAuth.getInstance()
-
-    override fun onStart() {
-        super.onStart()
-        if (firebaseAuth.currentUser != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-        }
-    }
+    private lateinit var binding: ActivityRegisterBinding
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
-        editFullName = findViewById(R.id.full_name)
-        editUmur = findViewById(R.id.umur)
-        editEmail = findViewById(R.id.email)
-        editPassword = findViewById(R.id.password)
-        editPasswordConf = findViewById(R.id.password_conf)
-        btnRegister = findViewById(R.id.btn_register)
-        btnLogin = findViewById(R.id.btn_login)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        btnLogin.setOnClickListener {
+        firebaseAuth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
+
+        // Set up the spinner for gender selection
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.gender_options,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerGender.adapter = adapter
+        }
+
+        binding.buttonLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
-        btnRegister.setOnClickListener {
-            if (editFullName.text.isNotEmpty() && editEmail.text.isNotEmpty() && editPassword.text.isNotEmpty()) {
-                if (editPassword.text.toString() == editPasswordConf.text.toString()) {
-                    //Launch Register
-                    processRegister()
-                } else {
-                    Toast.makeText(this, "Konfirmasi kata sandi harus sama", LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(this, "Silahkan isi dulu semua data", LENGTH_SHORT).show()
+
+        binding.buttonRegister.setOnClickListener {
+            val fullName = binding.textFullName.text.toString()
+            val age = binding.textAgeLabel.text.toString()
+            val email = binding.textEmail.text.toString()
+            val location = binding.textLocation.text.toString()
+            val password = binding.textPassword.text.toString()
+            val confirmPassword = binding.textConfirmPassword.text.toString()
+            val gender = binding.spinnerGender.selectedItem.toString()
+
+            if (validateInput(fullName, age, email, location, password, confirmPassword)) {
+                // Perform registration process
+                registerUser(fullName, age, email, location, password, gender)
             }
         }
     }
 
-    private fun processRegister() {
-        val fullName = editFullName.text.toString()
-        val umur = editUmur.text.toString()
-        val email = editEmail.text.toString()
-        val password = editPassword.text.toString()
+    private fun validateInput(
+        fullName: String,
+        age: String,
+        email: String,
+        location: String,
+        password: String,
+        confirmPassword: String
+    ): Boolean {
+        if (fullName.isEmpty() || age.isEmpty() || email.isEmpty() || location.isEmpty() ||
+            password.isEmpty() || confirmPassword.isEmpty()
+        ) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (password != confirmPassword) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
 
-        val alertDialog = AlertDialog.Builder(this)
-            .setTitle("Logging")
-            .setMessage("Silahkan tunggu ...")
-            .setCancelable(false)
-            .create()
-
-        alertDialog.show()
-
+    private fun registerUser(
+        fullName: String,
+        age: String,
+        email: String,
+        location: String,
+        password: String,
+        gender: String
+    ) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
-                alertDialog.dismiss()
                 if (task.isSuccessful) {
-                    val userUpdateProfile = userProfileChangeRequest {
-                        displayName = fullName
+                    val user = firebaseAuth.currentUser
+                    val userData = hashMapOf(
+                        "fullName" to fullName,
+                        "age" to age,
+                        "email" to email,
+                        "location" to location,
+                        "gender" to gender
+                    )
+                    user?.let {
+                        firestore.collection("user").document(user.uid)
+                            .set(userData)
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this, MainActivity::class.java))
+                                finish()
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this, "Failed to store user data: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
                     }
-                    val user = task.result?.user
-                    user?.updateProfile(userUpdateProfile)
-                        ?.addOnCompleteListener {
-                            startActivity(Intent(this, MainActivity::class.java))
-                        }
-                        ?.addOnFailureListener { error2 ->
-                            Toast.makeText(this, error2.localizedMessage, LENGTH_SHORT).show()
-                        }
                 } else {
-                    val error = task.exception?.localizedMessage ?: "Registrasi gagal"
-                    Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
     }

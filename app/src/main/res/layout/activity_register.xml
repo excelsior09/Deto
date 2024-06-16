@@ -1,108 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/title_background_shape"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="14dp"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Daftar Sekarang"/>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            app:boxBackgroundMode="outline">
-            <EditText
-                android:id="@+id/full_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="Nama Lengkap"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            app:boxBackgroundMode="outline">
-            <EditText
-                android:id="@+id/umur"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="Umur"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            app:boxBackgroundMode="outline">
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="Email"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            app:boxBackgroundMode="outline"
-            app:passwordToggleEnabled="true">
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="Konfirmasi Kata Sandi"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            app:boxBackgroundMode="outline"
-            app:passwordToggleEnabled="true">
-            <EditText
-                android:id="@+id/password_conf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="Konfirmasi Kata Sandi"/>
-        </com.google.android.material.textfield.TextInputLayout>
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-        <Button
-            android:id="@+id/btn_register"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="#3F51B5"
-            android:text="Daftar Sekarang" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Apakah Anda sudah memiliki akun?"
-            android:textAlignment="center"
-            android:layout_marginTop="20dp"/>
+            <!-- Title Section -->
+            <LinearLayout
+                android:id="@+id/layoutTitleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
 
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Login Sekarang"
-            android:backgroundTint="#3F51B5"
-            android:textColor="@color/white"
-            android:layout_marginTop="20dp"/>
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="166dp"
+                    android:layout_height="150dp"
+                    app:srcCompat="@drawable/logo" />
 
-</ScrollView>
+
+                <TextView
+                    android:id="@+id/textSubtitle"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25sp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="Daftar Sekarang" />
+            </LinearLayout>
+
+            <!-- Full Name Input -->
+            <LinearLayout
+                android:id="@+id/layoutFullName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/input_background_shape"
+                android:paddingVertical="1dp"
+                android:paddingHorizontal="22dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginHorizontal="28dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/textFullName"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:hint="Nama Lengkap" />
+            </LinearLayout>
+
+            <!-- Age Input -->
+            <LinearLayout
+                android:id="@+id/layoutAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+
+                android:layout_marginBottom="15dp"
+                android:layout_marginHorizontal="28dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/layoutAgeLabel"
+                    android:layout_width="113dp"
+                    android:layout_height="50dp"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/input_background_shape"
+                    android:paddingVertical="1dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/textAgeLabel"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:hint="Umur" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/layoutGender"
+                    android:layout_width="185dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/input_background_shape"
+                    android:paddingVertical="2dp"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/spinnerGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="28dp"
+                        android:background="@drawable/input_background_shape"
+                        android:paddingVertical="10dp"
+                        android:entries="@array/gender_options" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Email Input -->
+            <LinearLayout
+                android:id="@+id/layoutEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/input_background_shape"
+                android:paddingVertical="1dp"
+                android:paddingHorizontal="22dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginHorizontal="26dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/textEmail"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:hint="E-mail" />
+            </LinearLayout>
+
+            <!-- Location Input -->
+            <LinearLayout
+                android:id="@+id/layoutLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_background_shape"
+                android:paddingVertical="1dp"
+                android:paddingHorizontal="22dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginHorizontal="28dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/textLocation"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:hint="Domisili" />
+            </LinearLayout>
+
+            <!-- Password Input -->
+            <LinearLayout
+                android:id="@+id/layoutPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_background_shape"
+                android:paddingVertical="1dp"
+                android:paddingHorizontal="22dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginHorizontal="28dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/textPassword"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:hint="Kata Sandi"
+                    android:inputType="textPassword"/>
+            </LinearLayout>
+
+            <!-- Confirm Password Input -->
+            <LinearLayout
+                android:id="@+id/layoutConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_background_shape"
+                android:paddingVertical="1dp"
+                android:paddingHorizontal="22dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginHorizontal="28dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/textConfirmPassword"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:hint="Konfirmasi Kata Sandi"
+                    android:inputType="textPassword"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="98dp"
+                android:orientation="vertical">
+
+                <!-- Register Button -->
+                <LinearLayout
+                    android:id="@+id/layoutRegisterButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/button_background_shape"
+                    android:paddingVertical="9dp"
+                    android:layout_marginBottom="9dp"
+                    android:elevation="25dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/buttonRegister"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="Daftar" />
+                </LinearLayout>
+
+                <!-- Already Have Account Text -->
+                <TextView
+                    android:id="@+id/textAlreadyHaveAccount"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginTop="6dp"
+                    android:textStyle="italic"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="Apakah Anda sudah memiliki akun?" />
+
+                <!-- Login Button -->
+                <LinearLayout
+                    android:id="@+id/layoutLoginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/button_background_shape"
+                    android:paddingVertical="9dp"
+                    android:elevation="25dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/buttonLogin"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="Masuk" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
